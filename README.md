@@ -1,11 +1,17 @@
 # verup
 Increment and update version in all project files.
 
-**v1.2.0**
+**v1.3.0**
 
 ## Ussage
 
-Place `verup.js` file somewhere in your projects' folder and add `verup` field to `package.json` file.
+Install with
+```bash
+npm i verup --save-dev
+```
+
+or place `verup.js` file somewhere in your projects' folder
+and add `.verup` field to `package.json` file.
 
 Here is an example of what `package.json` might contain:
 ```js
@@ -18,16 +24,24 @@ Here is an example of what `package.json` might contain:
   ]
 }
 "scripts": {
-  "verup": "node ./path/to/verup.js",
-  "build": "node ./path/to/verup.js -- 1 && build.sh"
+  "verup": "node ./node_modules/verup/verup.js",
+  "build": "node ./node_modules/verup/verup.js -- 1 && build.sh"
 }
 ...
 ```
 
-Now you can run 
+Now you can run:
 
-`node verup.js 1` to increment revision by 1 or
+```bash
+node verup.js 1       # to increment revision by 1 or
+node verup.js "1.0"   # to increment minor version by 1 or
+node verup.js "1.0.0" # to increment major version by 1
+```
 
-`node verup.js "1.0"` to increment minor version by 1 or 
+Or using `npm` in your project's root:
 
-`node verup.js "1.0.0"` to increment major version by 1.
+```bash
+npm run verup -- 2    # to increment revision by 2 or
+npm run verup -- -1   # to decrement revision by 1 or
+npm run verup -- -1.0 # to decrement minor version by 1 or
+```
