@@ -11,7 +11,7 @@ var hashes = ['verup'];
 
 var dir = path.join(__dirname, '..');
 var dist = path.join(dir, 'dist');
-var packo = JSON.parse(fs.readFileSync(path.join(dir, 'package.json')));
+var packo = require(path.join(dir, 'package.json'));
 var version = packo.version;
 
 if ( !fs.existsSync(dist) ) {
@@ -27,7 +27,7 @@ hashes.forEach(function (name) {
         }
         if ( data ) {
             var filename = path.join(dist, name + '.' + version + '.min.js');
-            fs.writeFile(filename, data.trim(), function (err) {
+            fs.writeFile(filename, "#!/usr/bin/env node\n" + data.trim(), function (err) {
                 if (err) throw err;
                 console.log("\x1b[32m%s\x1b[0m", filename);
             })
