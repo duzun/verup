@@ -24,8 +24,8 @@ Here is an example of what `package.json` might contain:
   ]
 }
 "scripts": {
-  "verup": "node ./node_modules/verup/verup.js",
-  "build": "node ./node_modules/verup/verup.js -- 1 && build.sh"
+  "verup": "node ./node_modules/verup",
+  "build": "node ./node_modules/verup -- 1 && build.sh"
 }
 ...
 ```
