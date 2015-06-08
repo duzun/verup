@@ -43,5 +43,5 @@ Or using `npm` in your project's root:
 ```bash
 npm run verup -- 2    # to increment revision by 2 or
 npm run verup -- -1   # to decrement revision by 1 or
-npm run verup -- -1.0 # to decrement minor version by 1 or
+npm run verup -- -1.0 # to decrement minor version by 1
 ```
