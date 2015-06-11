@@ -15,14 +15,15 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.0
+ * @version 1.3.1
  */
 
 var path = require('path');
 var fs   = require('fs');
 
 var ver_reg = [
-    /^((?:\$|(\s*\*\s*@)|(\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/
+    /^((?:\$|(?:\s*\*\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x';
+  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i // const VERSION = 'x.x.x';
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
 
@@ -76,7 +77,7 @@ if ( !_verup ) {
 var files = _verup.files;
 
 if ( _verup.regs ) {
-    ver_reg = _verup.regs.map(function (r) { return new RegExp(r); });
+    ver_reg = _verup.regs.map(function (r) { return new RegExp(r, 'i'); });
 }
 
 var over = packo.version;
