@@ -2,7 +2,7 @@
 /**
  * Increment and update version in all project files.
  *
- * Ussage:
+ * Usage:
  *
  *  Increment revision by 1:
  *      node verup.js 1
@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 var path = require('path');

@@ -1,9 +1,11 @@
 {
   "name": "verup",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Increment and update version in all project files",
   "keywords": [
     "version",
+    "files",
+    "build",
     "bump",
     "major",
     "minor",
@@ -18,8 +20,7 @@
   "main": "verup.js",
   "bin": "./verup.js",
   "files": [
-    "verup.js",
-    "LICENSE"
+    "verup.js"
   ],
   "readmeFilename": "README.md",
   "license": [
