@@ -15,15 +15,18 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.4
+ * @version 1.3.5
  */
 
 var path = require('path');
 var fs   = require('fs');
 
 var ver_reg = [
-    /^((?:\$|(?:\s*\*\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x';
-  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i // const VERSION = 'x.x.x';
+    // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x'; @version x.x.x;
+    /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i 
+    // const VERSION = 'x.x.x';
+  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i 
+    // * vX.X.X
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
 
