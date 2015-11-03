@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.5
+ * @version 1.3.6
  */
 
 var path = require('path');
@@ -59,7 +59,7 @@ var packFile = findPackage(__dirname, name);
 
 if ( !packFile ) {
     console.log('package.json file not found');
-    process.exist(1);
+    process.exit(1);
 }
 
 var _root = path.dirname(packFile);
@@ -74,7 +74,7 @@ var _verup = packo.verup;
 
 if ( !_verup ) {
     console.log('package.json doesn\'t have a `verup` property defined');
-    process.exist(1);
+    process.exit(1);
 }
 
 var files = _verup.files;
