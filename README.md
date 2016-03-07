@@ -1,7 +1,7 @@
 # verup
 Increment and update version in all project files.
 
-**v1.3.6**
+**v1.4.0**
 
 ## Usage
 
@@ -16,17 +16,19 @@ and add `.verup` field to `package.json` file.
 Here is an example of what `package.json` might contain:
 ```js
 ...
-"verup": {
-  "files": [
-    "manifest.json",
-    "index.js",
-    "README.MD" ...
-  ]
-}
 "scripts": {
   "verup": "verup",
   "build": "verup -- 1 && build.sh",
   "version": "verup 0" // this one gets called on `npm version <newver>` to patch other project files
+},
+"extra": {
+  "verup": {
+    "files": [
+      "manifest.json",
+      "index.js",
+      "README.MD" ...
+    ]
+  }
 }
 ...
 ```

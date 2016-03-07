@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.6
+ * @version 1.4.0
  */
 
 var path = require('path');
@@ -23,9 +23,9 @@ var fs   = require('fs');
 
 var ver_reg = [
     // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x'; @version x.x.x;
-    /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i 
+    /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // const VERSION = 'x.x.x';
-  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i 
+  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // * vX.X.X
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
@@ -70,7 +70,7 @@ if ( !packo ) {
     process.exit(1);
 }
 
-var _verup = packo.verup;
+var _verup = packo.extra && packo.extra.verup || packo.verup;
 
 if ( !_verup ) {
     console.log('package.json doesn\'t have a `verup` property defined');
