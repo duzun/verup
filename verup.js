@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 var path = require('path');
@@ -29,6 +29,8 @@ var ver_reg = [
     // * vX.X.X
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
+
+var json_ver_reg = /^(\s*['"]version['"]\s*\:\s*['"])([0-9]+(?:\.[0-9]+){2,2})/i;
 
 /// bump should be 1 for revision, 1.0 for minor and 1.0.0 for major version
 var bump = '1'; // bump by
@@ -108,6 +110,8 @@ if ( over ) {
         fs.writeFileSync(packFile, buf);
     }
 
+    var ver_reg_rep = function ($0,$1) { return $1 + nver; };
+
     files.forEach(function (f) {
         var fn = path.join(_root, f);
         var cnt = fs.readFileSync(fn, 'utf8');
@@ -116,11 +120,22 @@ if ( over ) {
 
         switch(ext) {
             case '.json': {
-                var packo = JSON.parse(cnt);
-                packo.version = nver;
-                buf = JSON.stringify(packo, null, 2);
-                if ( buf ) {
-                    buf += "\n";
+                try {
+                    var packo = JSON.parse(cnt);
+                    packo.version = nver;
+                    buf = JSON.stringify(packo, null, 2);
+                    if ( buf ) {
+                        buf += "\n";
+                    }
+                }
+                catch(err) {
+                    buf = cnt
+                        .split('\n')
+                        .map(function (l) {
+                            return json_ver_reg.test(l) ? l.replace(json_ver_reg, ver_reg_rep) : l;
+                        })
+                        .join("\n")
+                    ;
                 }
             } break;
 
@@ -130,7 +145,7 @@ if ( over ) {
                     .map(function (l) {
                         for(var i=ver_reg.length; i--;) {
                             if ( ver_reg[i].test(l) ) {
-                                return l.replace(ver_reg[i], function ($0,$1) { return $1 + nver })
+                                return l.replace(ver_reg[i], ver_reg_rep);
                             }
                         }
                         return l;
