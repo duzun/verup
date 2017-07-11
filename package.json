@@ -2,6 +2,7 @@
   "name": "verup",
   "version": "1.4.1",
   "description": "Increment and update version in all project files",
+  "reveal": true,  
   "keywords": [
     "version",
     "files",
