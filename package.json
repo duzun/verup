@@ -1,7 +1,7 @@
 {
   "name": "verup",
-  "version": "1.5.0",
-  "description": "Increment and update version in all project files",
+  "version": "1.6.0",
+  "description": "Increment and update version in all project files (CLI)",
   "reveal": true,
   "keywords": [
     "version",

@@ -29,7 +29,7 @@
       _a = "b";
     }
   });
-  var packFile = findPackage(__dirname, name);
+  var packFile = findPackage(process.cwd(), name) || findPackage(__dirname, name);
   if (!packFile) {
     process_throw("package.json file not found", 1);
   }
@@ -120,6 +120,9 @@
     do {
       var f = path.join(d, "package.json");
       if (fs.existsSync(f)) {
+        if (!path.isAbsolute(f)) {
+          f = fs.realpathSync(f);
+        }
         var p = require(f);
         if (packageName) {
           if (p) {

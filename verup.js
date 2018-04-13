@@ -15,10 +15,12 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 (() => {
+
+'use strict';
 
 const path = require('path');
 const fs   = require('fs');
@@ -59,7 +61,7 @@ process.argv.forEach((v, i) => {
     }
 });
 
-const packFile = findPackage(__dirname, name);
+const packFile = findPackage(process.cwd(), name) || findPackage(__dirname, name);
 
 if ( !packFile ) {
     process_throw('package.json file not found', 1);
@@ -173,7 +175,11 @@ function findPackage(dir, packageName) {
     do {
         let f = path.join(d, 'package.json');
         if ( fs.existsSync(f) ) {
-
+            // require(f) would look for paths relative to this module,
+            // but we need it to be relative to process.cwd()
+            if ( !path.isAbsolute(f) ) {
+                f = fs.realpathSync(f);
+            }
             const p = require(f);
             // Look for a specific project name
             if ( packageName ) {
