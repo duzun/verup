@@ -1,8 +1,8 @@
 {
   "name": "verup",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Increment and update version in all project files",
-  "reveal": true,  
+  "reveal": true,
   "keywords": [
     "version",
     "files",
@@ -18,8 +18,10 @@
     "email": "contact@duzun.me",
     "url": "https://DUzun.Me/"
   },
-  "main": "verup.js",
-  "bin": "./verup.js",
+  "main": "dist/verup.js",
+  "module": "verup.js",
+  "esnext": "verup.js",
+  "bin": "dist/verup.js",
   "files": [
     "verup.js"
   ],
@@ -52,9 +54,28 @@
   },
   "scripts": {
     "dist": "npm run verup && npm run build",
-    "build": "node ./tools/build.js",
+    "build": "(echo '#!/bin/env node' && gccs --compilation_level WHITESPACE_ONLY --formatting pretty_print -- verup.js -) > dist/verup.js && (echo '#!/bin/env node' && gccs dist/verup.js -) > dist/verup.min.js",
     "verup": "node ./verup.js -n verup",
     "version": "node ./verup.js -n verup 0",
     "test": ""
+  },
+  "jshintConfig": {
+    "node": true,
+    "esversion": 6,
+    "laxbreak": true,
+    "laxcomma": true,
+    "undef": true,
+    "unused": true,
+    "sub": true,
+    "expr": true,
+    "bitwise": false,
+    "eqeqeq": false,
+    "boss": true,
+    "eqnull": true,
+    "scripturl": true,
+    "-W041": false
+  },
+  "devDependencies": {
+    "gccs": "^1.2.0"
   }
 }

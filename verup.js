@@ -15,13 +15,15 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.4.1
+ * @version 1.5.0
  */
 
-var path = require('path');
-var fs   = require('fs');
+(() => {
 
-var ver_reg = [
+const path = require('path');
+const fs   = require('fs');
+
+let ver_reg = [
     // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x'; @version x.x.x;
     /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // const VERSION = 'x.x.x';
@@ -30,16 +32,16 @@ var ver_reg = [
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
 
-var json_ver_reg = /^(\s*['"]version['"]\s*\:\s*['"])([0-9]+(?:\.[0-9]+){2,2})/i;
+const json_ver_reg = /^(\s*['"]version['"]\s*\:\s*['"])([0-9]+(?:\.[0-9]+){2,2})/i;
 
 /// bump should be 1 for revision, 1.0 for minor and 1.0.0 for major version
-var bump = '1'; // bump by
+let bump = '1'; // bump by
 
 /// Project name to bump (search it's package.json folder)
-var name = '';
+let name = '';
 
-var _a = 'b';
-process.argv.forEach(function (v, i) {
+let _a = 'b';
+process.argv.forEach((v, i) => {
     if ( i < 2 ) return;
     if ( v.slice(0,1) == '-' && isNaN(parseFloat(v)) ) {
         _a = v.slice(1);
@@ -57,71 +59,68 @@ process.argv.forEach(function (v, i) {
     }
 });
 
-var packFile = findPackage(__dirname, name);
+const packFile = findPackage(__dirname, name);
 
 if ( !packFile ) {
-    console.log('package.json file not found');
-    process.exit(1);
+    process_throw('package.json file not found', 1);
 }
 
-var _root = path.dirname(packFile);
-var packo = require(packFile);
+const _root = path.dirname(packFile);
+const packo = require(packFile);
 
 if ( !packo ) {
-    console.error('Can\'t read package.json file');
-    process.exit(1);
+    process_throw(`Can't read package.json file`, 2);
 }
 
-var _verup = packo.extra && packo.extra.verup || packo.verup;
+const _verup = packo.extra && packo.extra.verup || packo.verup;
 
 if ( !_verup ) {
-    console.log('package.json doesn\'t have a `verup` property defined');
-    process.exit(1);
+    process_throw('package.json doesn\'t have a `verup` property defined', 3);
 }
 
-var files = _verup.files;
+const files = _verup.files;
 
 if ( _verup.regs ) {
-    ver_reg = _verup.regs.map(function (r) { return new RegExp(r, 'i'); });
+    ver_reg = _verup.regs.map((r) => new RegExp(r, 'i'));
 }
 
-var over = packo.version;
+const over = packo.version;
 if ( over ) {
     bump = bump.split('.').reverse();
 
-    var nver = over.split('.').reverse();
+    let nver = over.split('.').reverse();
     var b, l;
     while(bump.length && !(b = parseInt(bump.pop())));
     l = bump.length;
 
     // console.log({b:b,nver:nver,over:over,l:l,bump:bump})
     nver[l] = +nver[l] + b;
-    bump.forEach(function (v,i) { nver[i] = v; });
+    bump.forEach((v,i) => { nver[i] = v; });
 
     nver = nver.reverse().join('.');
     packo.version = nver;
 
     console.log('Bumping version: ' + over + ' -> ' + nver);
 
-    var buf = JSON.stringify(packo, null, 2);
+    let buf = JSON.stringify(packo, null, 2);
 
     if ( buf && over != nver ) {
         buf += "\n";
         fs.writeFileSync(packFile, buf);
     }
 
-    var ver_reg_rep = function ($0,$1) { return $1 + nver; };
+    const ver_reg_rep = ($0, $1) => $1 + nver;
 
-    files.forEach(function (f) {
-        var fn = path.join(_root, f);
-        var cnt = fs.readFileSync(fn, 'utf8');
-        var ext = path.extname(f);
+    files.forEach((f) => {
+        const fn = path.join(_root, f);
+        const cnt = fs.readFileSync(fn, 'utf8');
+        const ext = path.extname(f);
         var buf;
 
         switch(ext) {
             case '.json': {
                 try {
-                    var packo = JSON.parse(cnt);
+                    const packo = JSON.parse(cnt);
                     packo.version = nver;
                     buf = JSON.stringify(packo, null, 2);
                     if ( buf ) {
@@ -131,9 +130,10 @@ if ( over ) {
                 catch(err) {
                     buf = cnt
                         .split('\n')
-                        .map(function (l) {
-                            return json_ver_reg.test(l) ? l.replace(json_ver_reg, ver_reg_rep) : l;
-                        })
+                        .map((l) => json_ver_reg.test(l)
+                            ? l.replace(json_ver_reg, ver_reg_rep)
+                            : l
+                        )
                         .join("\n")
                     ;
                 }
@@ -142,8 +142,8 @@ if ( over ) {
             default: {
                 buf = cnt
                     .split('\n')
-                    .map(function (l) {
-                        for(var i=ver_reg.length; i--;) {
+                    .map((l) => {
+                        for(let i=ver_reg.length; i--;) {
                             if ( ver_reg[i].test(l) ) {
                                 return l.replace(ver_reg[i], ver_reg_rep);
                             }
@@ -162,15 +162,19 @@ if ( over ) {
 
 }
 
+function process_throw(msg, code) {
+    process.stderr.write(`${msg}\n`);
+    process.exit(code);
+}
 
 /// Find package.json file in closest folder from `dir` and up.
 function findPackage(dir, packageName) {
-    var d = dir || '.', f;
+    let d = dir || '.';
     do {
-        f = path.join(d, 'package.json');
+        let f = path.join(d, 'package.json');
         if ( fs.existsSync(f) ) {
 
-            var p = require(f);
+            const p = require(f);
             // Look for a specific project name
             if ( packageName ) {
                 if ( p ) {
@@ -191,3 +195,5 @@ function findPackage(dir, packageName) {
     } while (d != dir && dir.slice(0,2) != '..');
     return false;
 }
+
+})();
