@@ -2,7 +2,12 @@
 (function() {
   var path = require("path");
   var fs = require("fs");
-  var ver_reg = [/^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i, /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i, /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/];
+  var requireJSON = require;
+  try {
+    requireJSON = require("require-json5");
+  } catch (err) {
+  }
+  var ver_reg = [/^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i, /^(\s*(?:export\s+)const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i, /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/];
   var json_ver_reg = /^(\s*['"]version['"]\s*:\s*['"])([0-9]+(?:\.[0-9]+){2,2})/i;
   var bump = "1";
   var name = "";
@@ -34,7 +39,7 @@
     process_throw("package.json file not found", 1);
   }
   var _root = path.dirname(packFile);
-  var packo = require(packFile);
+  var packo = requireJSON(packFile);
   if (!packo) {
     process_throw("Can't read package.json file", 2);
   }
@@ -86,7 +91,7 @@
               if (buf) {
                 buf += "\n";
               }
-            } catch (err) {
+            } catch (err$1) {
               buf = cnt.split("\n").map(function(l) {
                 return json_ver_reg.test(l) ? l.replace(json_ver_reg, ver_reg_rep) : l;
               }).join("\n");
@@ -123,7 +128,7 @@
         if (!path.isAbsolute(f)) {
           f = fs.realpathSync(f);
         }
-        var p = require(f);
+        var p = requireJSON(f);
         if (packageName) {
           if (p) {
             if (p.name == packageName) {
