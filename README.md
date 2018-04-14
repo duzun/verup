@@ -1,7 +1,7 @@
 # verup
 Increment and update version in all project files.
 
-**v1.6.0**
+**v1.6.1**
 
 ## Usage
 

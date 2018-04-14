@@ -1,6 +1,6 @@
 {
   "name": "verup",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Increment and update version in all project files (CLI)",
   "reveal": true,
   "keywords": [
@@ -43,6 +43,7 @@
     "verup": {
       "files": [
         "verup.js",
+        "package-lock.json",
         "README.md"
       ],
       "regs": [
@@ -74,6 +75,9 @@
     "eqnull": true,
     "scripturl": true,
     "-W041": false
+  },
+  "peedDependencies": {
+    "require-json5": "^1.0"
   },
   "devDependencies": {
     "gccs": "^1.2.0"

@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.6.0
+ * @version 1.6.1
  */
 
 (() => {
@@ -25,11 +25,15 @@
 const path = require('path');
 const fs   = require('fs');
 
+// Try to use `require-json5` to read JSON files
+var requireJSON = require;
+try { requireJSON = require('require-json5'); } catch(err) {}
+
 let ver_reg = [
     // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x'; @version x.x.x;
     /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // const VERSION = 'x.x.x';
-  , /^(\s*const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
+  , /^(\s*(?:export\s+)const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // * vX.X.X
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
@@ -68,7 +72,7 @@ if ( !packFile ) {
 }
 
 const _root = path.dirname(packFile);
-const packo = require(packFile);
+const packo = requireJSON(packFile);
 
 if ( !packo ) {
     process_throw(`Can't read package.json file`, 2);
@@ -180,7 +184,7 @@ function findPackage(dir, packageName) {
             if ( !path.isAbsolute(f) ) {
                 f = fs.realpathSync(f);
             }
-            const p = require(f);
+            const p = requireJSON(f);
             // Look for a specific project name
             if ( packageName ) {
                 if ( p ) {
