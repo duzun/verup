@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.6.1
+ * @version 1.6.2
  */
 
 (() => {

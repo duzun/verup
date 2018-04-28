@@ -1,6 +1,6 @@
 {
   "name": "verup",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Increment and update version in all project files (CLI)",
   "reveal": true,
   "keywords": [
@@ -55,7 +55,7 @@
   },
   "scripts": {
     "dist": "npm run verup && npm run build",
-    "build": "(echo '#!/bin/env node' && gccs --compilation_level WHITESPACE_ONLY --formatting pretty_print -- verup.js -) > dist/verup.js && (echo '#!/bin/env node' && gccs dist/verup.js -) > dist/verup.min.js",
+    "build": "gccs --compilation_level WHITESPACE_ONLY --formatting pretty_print -- verup.js dist/verup.js && gccs dist/verup.js dist/verup.min.js",
     "verup": "node ./verup.js -n verup",
     "version": "node ./verup.js -n verup 0",
     "test": ""
@@ -80,6 +80,6 @@
     "require-json5": "^1.0"
   },
   "devDependencies": {
-    "gccs": "^1.2.0"
+    "gccs": "^1.3"
   }
 }

@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/usr/bin/env node
 (function() {
   var path = require("path");
   var fs = require("fs");
