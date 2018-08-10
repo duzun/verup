@@ -1,6 +1,6 @@
 {
   "name": "verup",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "Increment and update version in all project files (CLI)",
   "reveal": true,
   "keywords": [
@@ -80,6 +80,6 @@
     "require-json5": "^1.0"
   },
   "devDependencies": {
-    "gccs": "^1.3"
+    "gccs": "^1.3.0"
   }
 }

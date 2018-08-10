@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.6.2
+ * @version 1.7.0
  */
 
 (() => {
@@ -81,7 +81,7 @@ if ( !packo ) {
 const _verup = packo.extra && packo.extra.verup || packo.verup;
 
 if ( !_verup ) {
-    process_throw('package.json doesn\'t have a `verup` property defined', 3);
+    process_throw("package.json doesn't have a `verup` property defined", 3);
 }
 
 const files = _verup.files;
@@ -195,8 +195,10 @@ function findPackage(dir, packageName) {
             }
             // Look for any project except this one (verup)
             else {
-                if ( !p || p.name != 'verup' ) {
-                    return f;
+                if ( p ) {
+                    if ( (p.extra && p.extra.verup || p.verup) && p.name != 'verup' ) {
+                        return f;
+                    }
                 }
             }
         }

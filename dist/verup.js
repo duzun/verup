@@ -136,8 +136,10 @@
             }
           }
         } else {
-          if (!p || p.name != "verup") {
-            return f;
+          if (p) {
+            if ((p.extra && p.extra.verup || p.verup) && p.name != "verup") {
+              return f;
+            }
           }
         }
       }
