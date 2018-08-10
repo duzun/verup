@@ -23,7 +23,8 @@
   "esnext": "verup.js",
   "bin": "dist/verup.js",
   "files": [
-    "verup.js"
+    "verup.js",
+    "dist/"
   ],
   "readmeFilename": "README.md",
   "license": [
