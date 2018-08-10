@@ -1,4 +1,4 @@
-# verup
+# verup [![npm version](https://badge.fury.io/js/verup.svg)](https://badge.fury.io/js/verup)
 
 **v1.7.0**
 
