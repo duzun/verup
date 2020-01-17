@@ -15,7 +15,7 @@
  *
  *
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.7.0
+ * @version 1.7.1
  */
 
 (() => {
@@ -33,7 +33,7 @@ let ver_reg = [
     // var version = 'x.x.x'; $version = 'x.x.x'; version := 'x.x.x'; @version x.x.x;
     /^((?:\$|(?:\s*\**\s*@)|(?:\s*(?:var|,)?\s+))version[\s\:='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // const VERSION = 'x.x.x';
-  , /^(\s*(?:export\s+)const\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
+  , /^(\s*(?:export\s+)?(?:const|var|let)\s+VERSION[\s='"]+)([0-9]+(?:\.[0-9]+){2,2})/i
     // * vX.X.X
   , /^(\s?\*.*v)([0-9]+(?:\.[0-9]+){2,2})/
 ];
